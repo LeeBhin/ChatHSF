@@ -6,7 +6,7 @@ function MyChat(vm, Chat) {
     vm.chats.push(newChat)
 }
 
-function BotChat(vm, Chat) {
+async function BotChat(vm, Chat) {
     const newChat = {
         type: 'BotChat',
         index: vm.chats.length
@@ -25,6 +25,9 @@ function WriteChat(vm, index, Chat) {    //한글자씩 입력
     const intervalId = setInterval(() => {
         if (charIndex < Chat.length) {
             for (let i = 0; i < elements.length; i++) {
+                if (Chat.charAt(charIndex) == '\n') {
+                    elements[i].innerHTML += '<br>'
+                }
                 elements[i].innerHTML += Chat.charAt(charIndex);
             }
             charIndex++;
@@ -44,10 +47,12 @@ function scrollBottom(vm) {    //스크롤 다운
     });
 }
 
+import { Decision } from "./Question_Decision";
+
 function EnterEvent(vm, inputValue) {
     MyChat(vm, inputValue);   //내 채팅
-    BotChat(vm, inputValue);
     document.querySelector('#SearchBar > input').value = ''
+    Decision(vm, inputValue)
 }
 
 export { MyChat, BotChat, WriteChat, scrollBottom, EnterEvent }

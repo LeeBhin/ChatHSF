@@ -51,7 +51,7 @@ export default {
   margin-left: 15px;
   background: #ffffff;
   box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.15);
-  border-radius: 30px 30px 30px 0;
+  border-radius: 20px 20px 20px 0;
   color: #0091ff;
 }
 
@@ -67,7 +67,7 @@ export default {
   margin-right: 15px;
   background: #0091ff;
   box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.15);
-  border-radius: 30px 30px 0 30px;
+  border-radius: 20px 20px 0 20px;
   color: white;
 }
 
