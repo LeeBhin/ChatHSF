@@ -1,8 +1,7 @@
 import { All_Info } from "@/assets/data"
 
 function SchList(School) {
-    let Maching_Sch = findMatchingItems(Need_Info(), School)
-    console.log(Maching_Sch)
+    var Maching_Sch = findMatchingItems(Need_Info(), School)
 
     const Only_Nm = [];
     for (const item of Maching_Sch) {
@@ -26,59 +25,73 @@ function Need_Info() {
             "HS_KND_SC_NM": hs_knd_sc_nm    //종류
         });
     }
+    console.log('needinfo:', result)
     return result;
 }
 
-function findMatchingItems(jsonArray, searchString) {
-    let matchingItems = [];
-    let searchWords = searchString;
+function findMatchingItems(jsonData, keywords) {
+    var count = (keywords.length - 1) * 2;
+    const lastWord = keywords[keywords.length - 1];
+    const keywordsToCheck = keywords.slice(0, -1);
 
-    for (let i = 0; i < jsonArray.length; i++) {
-        let json = jsonArray[i];
-        let schulRdnma = json['SCHUL_RDNMA'] || '';
-        let hsKndScNm = json['HS_KND_SC_NM'] || '';
+    const matchedData = [];
 
-        // 단어의 수에 따라 조건 판단
-        if (searchWords.length === 2) {
-            // 단어가 2개인 경우 SCHUL_RDNMA에서 첫 번째 단어와 2글자 이상 일치하고,
-            // HS_KND_SC_NM에서 마지막 단어와 3글자 이상 일치하는지 확인
-            let firstWord = searchWords[0];
-            let lastWord = searchWords[1];
+    for (const data of jsonData) {
+        const rdnma = data.SCHUL_RDNMA;
+        let matchCount = 0;
 
-            if (
-                (schulRdnma.includes(firstWord) || (firstWord === '경북' && schulRdnma.includes('경상북도')) || (firstWord === '경남' && schulRdnma.includes('경상남도')) || (firstWord === '충북' && schulRdnma.includes('충청북도')) || (firstWord === '충남' && schulRdnma.includes('충청남도')) || (firstWord === '전북' && schulRdnma.includes('전라북도')) || (firstWord === '전남' && schulRdnma.includes('전라남도'))) &&
-                (hsKndScNm.includes(lastWord) || (lastWord === '특목고' && hsKndScNm === '특수목적고등학교'))
-            ) {
-                matchingItems.push(json);
-            }
-        } else if (searchWords.length >= 3) {
-            // 단어가 3개 이상인 경우 SCHUL_RDNMA에서 첫 번째 단어부터 뒤에서 두 번째 단어까지 일치하는 글자 수 확인
-            // 그리고 HS_KND_SC_NM에서 마지막 단어와 3글자 이상 일치하는지 확인
-            let lastWord = searchWords[searchWords.length - 1];
-            let matchCountRdnma = 0;
+        if (keywordsToCheck.includes('경남') && rdnma.includes('경상남도')) {
+            matchCount += 2;
+        }
+        if (keywordsToCheck.includes('경북') && rdnma.includes('경상북도')) {
+            matchCount += 2;
+        }
+        if (keywordsToCheck.includes('전남') && rdnma.includes('전라남도')) {
+            matchCount += 2;
+        }
+        if (keywordsToCheck.includes('전북') && rdnma.includes('전라북도')) {
+            matchCount += 2;
+        }
+        if (keywordsToCheck.includes('충남') && rdnma.includes('충청남도')) {
+            matchCount += 2;
+        }
+        if (keywordsToCheck.includes('충북') && rdnma.includes('충청북도')) {
+            matchCount += 2;
+        }
 
-            // SCHUL_RDNMA에서 첫 번째 단어부터 뒤에서 두 번째 단어까지 일치하는 글자 수 확인
-            for (let j = 0; j < searchWords.length - 1; j++) {
-                let currentWord = searchWords[j];
-                let currentMatchCount = 0;
+        for (let i = 0; i < keywordsToCheck.length; i++) {
+            const keyword = keywordsToCheck[i];
 
-                if (schulRdnma.includes(currentWord) || (currentWord === '경북' && schulRdnma.includes('경상북도')) || (currentWord === '경남' && schulRdnma.includes('경상남도')) || (currentWord === '충북' && schulRdnma.includes('충청북도')) || (currentWord === '충남' && schulRdnma.includes('충청남도')) || (currentWord === '전북' && schulRdnma.includes('전라북도')) || (currentWord === '전남' && schulRdnma.includes('전라남도'))) {
-                    currentMatchCount = currentWord.length;
+            if (i === 0) {  //첫번째는 단어로
+                if (rdnma.includes(keyword)) {
+                    matchCount += 2;
+
                 }
 
-                matchCountRdnma += currentMatchCount;
+            } else {    //나머지는 글자로
+                for (const char of keyword) {
+                    if (rdnma.includes(char)) {
+                        matchCount++;
+                    }
+                }
+            }
+        }
+        if (matchCount >= count) {
+            let lastWordMatchCount = 0;
+            for (const char of lastWord) {
+                if (data.HS_KND_SC_NM.includes(char)) {
+                    lastWordMatchCount++;
+                }
             }
 
-            // HS_KND_SC_NM에서 마지막 단어와 3글자 이상 일치하는지 확인
-            if ((hsKndScNm.includes(lastWord) || (lastWord === '특목고' && hsKndScNm === '특수목적고등학교')) && lastWord.length >= 3) {
-                if (matchCountRdnma >= 2 * (searchWords.length - 1)) {
-                    matchingItems.push(json);
-                }
+            if (lastWordMatchCount >= 3) {
+                matchedData.push(data);
             }
         }
     }
 
-    return matchingItems;
+    return matchedData;
 }
+
 
 export { SchList }
