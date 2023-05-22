@@ -1,101 +1,87 @@
 import { All_Info } from "@/assets/data"
 
-function SchList(School) {
-    var Maching_Sch = findMatchingItems(Need_Info(), School)
+function SchList(school_split) {
 
-    const Only_Nm = [];
-    for (const item of Maching_Sch) {
-        const schul_nm = item.SCHUL_NM;
-        Only_Nm.push(schul_nm);
-    }
-    return Only_Nm.join(', ')
+    var array = school_split    //원본 리스트
+
+    var gender = ['여고', '여자고', '여자고등학교', '여자학교', '여학교', '남고', '남자고', '남자고등학교', '남자학교', '남학교', '공학', '남녀공학'];  //성별
+    var type = ['일반고', '일반고등학교', '특성화고', '특성화고등학교', '특성화', '특목고', '특수목적고', '특수목적고등학교', '특수목적', '자율고', '자율고등학교'];  //학교 종류
+
+    var remainArray = arrayFilter(array, gender).filtered   //성별 뺀 리스트
+    var genderArray = arrayFilter(array, gender).filtering  //성별 리스트
+
+    var addressArray = arrayFilter(remainArray, type).filtered  //주소만 남은 리스트
+    var typeArray = arrayFilter(remainArray, type).filtering    //학교 종류 리스트
+
+    const gender_Clean = genderArray.map(str => {
+        if (str === '여고' || str === '여자고' || str === '여자고등학교' || str === '여자학교' || str === '여학교') {
+            return '녀';
+        } else if (str === '남고' || str === '남자고' || str === '남자고등학교' || str === '남자학교' || str === '남학교') {
+            return '남';
+        } else if (str === '공학' || str === '남녀공학') {
+            return '남녀공학';
+        }
+        return str;
+    });
+
+    const addressClean = addressArray.map(str => {
+        if (str === '경남') {
+            return '경상남도';
+        } else if (str === '경북') {
+            return '경상북도';
+        } else if (str === '전남') {
+            return '전라남도';
+        } else if (str === '전북') {
+            return '전라북도';
+        } else if (str === '충남') {
+            return '충청남도';
+        } else if (str === '충북') {
+            return '충청북도';
+        }
+        return str;
+    });
+
+    // console.log('주소 :', addressClean, '\n', '종류 :', typeArray, '\n', '성별 :', gender_Clean)
+    return ListFunction(All_Info, addressClean, typeArray, gender_Clean)
 }
 
-function Need_Info() {  //필요한 정보만
-    var result = [];
-    for (const item of All_Info) {
-        const schul_code = item.SCHUL_CODE;
-        const schul_nm = item.SCHUL_NM;
-        const schul_rdnma = item.SCHUL_RDNMA;
-        const hs_knd_sc_nm = item.HS_KND_SC_NM;
-        result.push({
-            "SCHUL_CODE": schul_code,       //학교코드
-            "SCHUL_NM": schul_nm,           //학교명
-            "SCHUL_RDNMA": schul_rdnma,     //주소
-            "HS_KND_SC_NM": hs_knd_sc_nm    //종류
-        });
-    }
 
-    return result;
+function ListFunction(jsonData, addressClean, typeArray, gender_Clean) {    //주소,종류,성별 필터
+
+    const filteredData = jsonData.filter(data =>
+        (addressClean.length === 0 || addressClean.every(address => //주소 필터
+            data.SCHUL_RDNMA.includes(address) || data.SCHUL_RDNMA.slice(0, 2).includes(address)
+        )) &&
+        (typeArray.length === 0 || typeArray.some(type =>   //종류 필터
+            [...type].filter(char => data.HS_KND_SC_NM.includes(char)).length >= 3
+        )) &&
+        (gender_Clean.length === 0 || gender_Clean.includes(data.COEDU_SC_CODE))    //성별 필터
+    ).map(data => data.SCHUL_NM);
+
+    const printData = filteredData.map(data => '⦁ ' + data.toString()).join('\n');
+    return printData
 }
 
-function findMatchingItems(jsonData, keywords) {
-    var count = (keywords.length - 1) * 2;
-    const lastWord = keywords[keywords.length - 1];
-    const keywordsToCheck = keywords.slice(0, -1);
 
-    const matchedData = [];
 
-    for (const data of jsonData) {
-        const rdnma = data.SCHUL_RDNMA;
-        let matchCount = 0;
 
-        //예외 처리
-        if (keywordsToCheck.includes('경남') && rdnma.includes('경상남도')) {
-            matchCount += 2;
-        }
-        if (keywordsToCheck.includes('경북') && rdnma.includes('경상북도')) {
-            matchCount += 2;
-        }
-        if (keywordsToCheck.includes('전남') && rdnma.includes('전라남도')) {
-            matchCount += 2;
-        }
-        if (keywordsToCheck.includes('전북') && rdnma.includes('전라북도')) {
-            matchCount += 2;
-        }
-        if (keywordsToCheck.includes('충남') && rdnma.includes('충청남도')) {
-            matchCount += 2;
-        }
-        if (keywordsToCheck.includes('충북') && rdnma.includes('충청북도')) {
-            matchCount += 2;
-        }
+function arrayFilter(Array, filterArray) {  //리스트에서 원하는 요소 빼기
 
-        for (const keyword of keywordsToCheck) {
-            let prevChar = ''; // 이전 글자
-            for (const char of keyword) {
-                if (prevChar && rdnma.includes(prevChar + char)) {
-                    // 이전 글자와 현재 글자를 합친 문자열이 주소에 포함되어 있는 경우
-                    matchCount += 2;
-                }
-                prevChar = char; // 현재 글자를 이전 글자로 저장
-            }
-        }
+    var targetArray = filterArray
 
-        if (matchCount >= count) {  //이전 조건이 충족하는경우
-            let lastWordMatchCount = 0;
-            for (const char of lastWord) {
-                if (data.HS_KND_SC_NM.includes(char)) { //한글자씩 검사
-                    lastWordMatchCount++;
-                }
-            }
-
-            if (lastWordMatchCount >= 3) {  //3글자 이상일떄
-                matchedData.push(data);
-            }
+    var filter = [];
+    var filteredArray = Array.filter(function (element) {
+        if (targetArray.includes(element)) {
+            filter.push(element);
+            return false;
         }
+        return true;
+    });
+
+    return {
+        filtered: filteredArray,
+        filtering: filter
     }
-
-    const filteredData = [];
-
-    for (const data of matchedData) {
-        const firstTwoChars = keywordsToCheck[0].substring(0, 2); // 문자열 리스트의 첫 번째 요소의 첫 두글자
-
-        if (data.SCHUL_RDNMA.includes(firstTwoChars)) {
-            filteredData.push(data);
-        }
-    }
-
-    return filteredData;
 }
 
 export { SchList }
