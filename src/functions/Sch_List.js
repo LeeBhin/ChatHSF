@@ -42,15 +42,27 @@ function SchList(school_split) {
     });
 
     // console.log('주소 :', addressClean, '\n', '종류 :', typeArray, '\n', '성별 :', gender_Clean)
-    return ListFunction(All_Info, addressClean, typeArray, gender_Clean)
+    // var result2 = addressClean + ',' + typeArray + ',' + genderArray
+    // return [ListFunction(All_Info, addressClean, typeArray, gender_Clean), result2]
+
+    var result = {
+        List: ListFunction(All_Info, addressClean, typeArray, gender_Clean),
+        Address: addressClean,
+        typeReturn: typeArray,
+        genderReturn: genderArray
+    }
+
+    return result
 }
 
 
 function ListFunction(jsonData, addressClean, typeArray, gender_Clean) {    //주소,종류,성별 필터
+    console.log(addressClean[0].slice(0, 2))
 
     const filteredData = jsonData.filter(data =>
         (addressClean.length === 0 || addressClean.every(address => //주소 필터
-            data.SCHUL_RDNMA.includes(address) || data.SCHUL_RDNMA.slice(0, 2).includes(address)
+            data.SCHUL_RDNMA.includes(address) || data.SCHUL_RDNMA.includes(address.slice(0, 2))||
+            data.ADRES_BRKDN.includes(address) || data.ADRES_BRKDN.includes(address.slice(0, 2))
         )) &&
         (typeArray.length === 0 || typeArray.some(type =>   //종류 필터
             [...type].filter(char => data.HS_KND_SC_NM.includes(char)).length >= 3

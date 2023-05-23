@@ -1,8 +1,11 @@
 import { BotChat } from "./Chat_Functions"
+import { not_Exist } from "./Bot_Comment/List_Comment"
 
-import { SchInfo } from "./Sch_Info"
+// import { SchInfo } from "./Sch_Info"
 
 import { SchList } from "./Sch_List"
+
+import { List_Comment } from "./Bot_Comment/List_Comment"
 
 function Decision(vm, Question) {
 
@@ -10,13 +13,13 @@ function Decision(vm, Question) {
 
     var array = Question_split.filter(Boolean); //공백 제거
 
-    if (Question_split.length == 1) {
-        SchInfo(array[0])
+    var String = (SchList(array).List)
+    if (String == '') {
+        BotChat(vm, not_Exist())
+    } else {
+        BotChat(vm, List_Comment(SchList(array)))
+        BotChat(vm, String)
     }
-    else if (Question_split.length > 1) {
-        BotChat(vm, SchList(array))
-    }
-
 }
 
 export { Decision }
