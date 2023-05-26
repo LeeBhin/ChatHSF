@@ -36,7 +36,7 @@ function WriteChat(vm, index, Chat) {    //한글자씩 입력
             scrollBottom(vm);
             vm.isChat = false
         }
-    }, 5);
+    }, 3);
 }
 
 function scrollBottom(vm) {    //스크롤 다운

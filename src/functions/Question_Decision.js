@@ -9,16 +9,11 @@ import { List_Comment } from "./Bot_Comment/List_Comment"
 
 function Decision(vm, Question) {
 
-    var Question_split = Question.split(' ')
-
-    var array = Question_split.filter(Boolean); //공백 제거
-
-    var String = (SchList(array).List)
-    if (String == '') {
-        BotChat(vm, not_Exist())
+    if (SchList(Question).List != '') {
+        BotChat(vm, List_Comment(SchList(Question)))
+        BotChat(vm, SchList(Question).List)
     } else {
-        BotChat(vm, List_Comment(SchList(array)))
-        BotChat(vm, String)
+        BotChat(vm, not_Exist())
     }
 }
 
