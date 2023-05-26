@@ -21,20 +21,14 @@ function List_Comment(json) {
 
     console.log((json))
     var Result = ''
-
-    var Ok_Messages = ['좋아요!', '좋습니다!', '알았어요!', '알겠어요!', '물론이죠!', '알겠습니다!', '문제 없어요!', '제게 맡기세요!', '제게 맡겨요!']
-
-    var Random = Ok_Messages[Math.floor(Math.random() * Ok_Messages.length)];
-    Result += Random + '\n'
-
-    Result += Cm1()
+    Result += Good() + '\n' + Cm1()
 
     if (json.address_Return && json.address_Return.length !== 0) {
         Result += json.address_Return.join(" ") + Cm2()
     }
 
     if (json.types_Return && json.types_Return.length !== 0) {
-        if (json.genders_Return.length !== 0) {
+        if (json.genders_Return && json.genders_Return.length !== 0) {
             Result += json.types_Return + Cm3()
         } else {
             Result += json.types_Return
@@ -51,9 +45,16 @@ function List_Comment(json) {
     return Result
 }
 
+function Good() {
+    var Ok_Messages = ['좋아요!', '좋습니다!', '알았어요!', '알겠어요!', '물론이죠!', '알겠습니다!', '문제 없어요!', '제게 맡기세요!', '제게 맡겨요!']
+    var Random = Ok_Messages[Math.floor(Math.random() * Ok_Messages.length)];
+    return Random
+}
+
 function Cm1() {
     var list = ['다음은 ', '아래는 ', '']
-    var Random = list[Math.floor(Math.random() * list.length)];
+    var Random = list[Math.floor(Math.random() * list.
+        length)];
     return Random
 }
 
@@ -70,7 +71,7 @@ function Cm3() {
 }
 
 function Cm4() {
-    var list = [' 고등학교입니다.', ' 고등학교 리스트입니다. ', ' 고등학교 목록입니다.']
+    var list = ['입니다.', ' 리스트입니다. ', ' 목록입니다.']
     var Random = list[Math.floor(Math.random() * list.length)];
     return Random
 }

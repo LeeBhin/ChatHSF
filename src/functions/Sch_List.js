@@ -20,19 +20,34 @@ function ListFunction(jsonData, addressClean, typeArray, gender_Clean) {    //�
         gender_Clean = [];
     }
 
-    const filteredData = jsonData.filter(data =>
-        (addressClean.length === 0 || addressClean.every(address => //주소 필터
-            data.SCHUL_RDNMA.includes(address) || data.ADRES_BRKDN.includes(address)
-        )) &&
-        (typeArray.length === 0 || typeArray.every(type => //주소 필터
-            data.HS_KND_SC_NM.includes(type)
-        )) &&
-        (gender_Clean.length === 0 || gender_Clean.includes(data.COEDU_SC_CODE))    //성별 필터
-    ).map(data => data.SCHUL_NM);
+    if (Sp) {
+        const filteredData = jsonData.filter(data =>
+            (addressClean.length === 0 || addressClean.some(address => //주소 필터
+                data.SCHUL_RDNMA.includes(address) || data.ADRES_BRKDN.includes(address)
+            )) &&
+            (typeArray.length === 0 || typeArray.some(type => //주소 필터
+                data.HS_KND_SC_NM.includes(type)
+            )) &&
+            (gender_Clean.length === 0 || gender_Clean.includes(data.COEDU_SC_CODE))    //성별 필터
+        ).map(data => data.SCHUL_NM);
 
-    const printData = filteredData.map(data => '⦁ ' + data.toString()).join('\n');
+        const printData = filteredData.map(data => '⦁ ' + data.toString()).join('\n');
+        return printData
 
-    return printData
+    } else {
+        const filteredData = jsonData.filter(data =>
+            (addressClean.length === 0 || addressClean.every(address => //주소 필터
+                data.SCHUL_RDNMA.includes(address) || data.ADRES_BRKDN.includes(address)
+            )) &&
+            (typeArray.length === 0 || typeArray.some(type => //주소 필터
+                data.HS_KND_SC_NM.includes(type)
+            )) &&
+            (gender_Clean.length === 0 || gender_Clean.includes(data.COEDU_SC_CODE))    //성별 필터
+        ).map(data => data.SCHUL_NM);
+
+        const printData = filteredData.map(data => '⦁ ' + data.toString()).join('\n');
+        return printData
+    }
 }
 
 function stringFilter(str) {    //예외 처리
@@ -43,6 +58,12 @@ function stringFilter(str) {    //예외 처리
     str = str.replace(/여고|여자고|여자학교|여학교|여자고등학교/g, "Female");
     str = str.replace(/남고|남자고|남자학교|남학교|남자고등학교/g, "Male");
     str = str.replace(/공학|공학학교/g, "Mixed");
+    str = str.replace(/경남/g, "경상남도");
+    str = str.replace(/경북/g, "경상북도");
+    str = str.replace(/전남/g, "전라남도");
+    str = str.replace(/전북/g, "전라북도");
+    str = str.replace(/충남/g, "충청남도");
+    str = str.replace(/충북/g, "충청북도");
     return str
 }
 
@@ -100,8 +121,39 @@ function SchList(string) {
 
     return result;
 }
-
+var Sp = false
 function address_Only(input, jsonData) {
+    var result = [];
+
+    const regions = ['경상남도', '경상북도', '전라남도', '전라북도', '충청남도', '충청북도', '경상도', '전라도', '충청도', '경상', '전라', '충청'];
+
+    regions.forEach(region => {
+        if (input.includes(region)) {
+            if (region == '경상도' || region == '경상') {
+                Sp = true;
+                result.push('경상남도')
+                result.push('경상북도')
+                input = input.replace(region, '');
+            } else if (region == '전라도' || region == '전라') {
+                Sp = true;
+                result.push('전라남도')
+                result.push('전라북도')
+                input = input.replace(region, '');
+            } else if (region == '충청도' || region == '충청') {
+                Sp = true;
+                result.push('충청남도')
+                result.push('충청북도')
+                input = input.replace(region, '');
+            }
+            else {
+                result.push(region)
+                input = input.replace(region, '');
+            }
+
+        }
+
+    });
+
     function splitString(str) {
         var result = [];
         for (var i = 0; i < str.length - 1; i++) {
@@ -116,13 +168,14 @@ function address_Only(input, jsonData) {
         SCHUL_RDNMA: item.SCHUL_RDNMA.split(' ')
     }));
 
-    var result = [];
     for (var i = 0; i < inputList.length; i++) {
         var found = false;
         for (var j = 0; j < jsonDataList.length; j++) {
             for (var k = 0; k < jsonDataList[j].ADRES_BRKDN.length; k++) {
                 if (inputList[i] === jsonDataList[j].ADRES_BRKDN[k].slice(0, 2)) {
+                    console.log(inputList)
                     result.push(jsonDataList[j].ADRES_BRKDN[k]);
+                    console.log(result)
                     found = true;
                     break;
                 }
