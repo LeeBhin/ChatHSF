@@ -37,4 +37,17 @@ header {
     margin: 0 auto;
     text-align: center;
 }
+
+/* 봇이름 */
+#BotName {
+    font-weight: bold;
+    font-size: 25px;
+    color: #0091ff;
+}
+
+/* 학교 이름 */
+#SchName {
+    font-size: 15px;
+    color: rgba(0, 145, 255, 0.6);
+}
 </style>
