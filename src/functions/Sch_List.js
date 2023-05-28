@@ -173,9 +173,7 @@ function address_Only(input, jsonData) {
         for (var j = 0; j < jsonDataList.length; j++) {
             for (var k = 0; k < jsonDataList[j].ADRES_BRKDN.length; k++) {
                 if (inputList[i] === jsonDataList[j].ADRES_BRKDN[k].slice(0, 2)) {
-                    console.log(inputList)
                     result.push(jsonDataList[j].ADRES_BRKDN[k]);
-                    console.log(result)
                     found = true;
                     break;
                 }
