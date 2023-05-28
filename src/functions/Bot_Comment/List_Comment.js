@@ -22,8 +22,10 @@ function List_Comment(json) {
     console.log((json))
     var Result = ''
     Result += Good() + '\n' + Cm1()
-
-    if (json.address_Return && json.address_Return.length !== 0) {
+    if (!json.types_Return && json.address_Return && json.address_Return.length !== 0) {
+        Result += json.address_Return.join(" ") + Cm2() + '고등학교'
+    }
+    else if (json.address_Return && json.address_Return.length !== 0) {
         Result += json.address_Return.join(" ") + Cm2()
     }
 
@@ -71,7 +73,7 @@ function Cm3() {
 }
 
 function Cm4() {
-    var list = ['입니다.', ' 리스트입니다. ', ' 목록입니다.']
+    var list = [' 리스트입니다. ', ' 목록입니다.', ' 모음입니다.']
     var Random = list[Math.floor(Math.random() * list.length)];
     return Random
 }

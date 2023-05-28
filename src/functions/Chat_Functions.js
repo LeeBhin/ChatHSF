@@ -15,26 +15,45 @@ async function BotChat(vm, Chat) {
     WriteChat(vm, newChat.index, Chat);
 }
 
-function WriteChat(vm, index, Chat) {    //한글자씩 입력
-    vm.isChat = true
+function WriteChat(vm, index, Chat) {
+    vm.isChat = true;
 
-    const BlnClass = `B${index}`;   //입력할 말풍선
-    const elements = document.getElementsByClassName(BlnClass)
+    const BlnClass = `B${index}`;
+    const elements = document.getElementsByClassName(BlnClass);
 
     let charIndex = 0;
     const intervalId = setInterval(() => {
         if (charIndex < Chat.length) {
             for (let i = 0; i < elements.length; i++) {
-                if (Chat.charAt(charIndex) == '\n') {
-                    elements[i].innerHTML += '<br>'
+                if (Chat.charAt(charIndex) === '\n') {
+                    elements[i].innerHTML += '<br>';
+                } else if (Chat.charAt(charIndex) === '㈜') {
+                    charIndex++;
+                    let website = '';
+
+                    while (charIndex < Chat.length && Chat.charAt(charIndex) !== '㈜') {
+                        website += Chat.charAt(charIndex);
+                        charIndex++;
+                    }
+                    elements[i].innerHTML += `<a href="${website}" target='_blank'>이곳</a>`;
+                } else if (Chat.charAt(charIndex) === '*') {
+                    charIndex++;
+                    let boldText = '';
+
+                    while (charIndex < Chat.length && Chat.charAt(charIndex) !== '^') {
+                        boldText += Chat.charAt(charIndex);
+                        charIndex++;
+                    }
+                    elements[i].innerHTML += `<strong style="color: #0066ff;">${boldText}</strong>`;
+                } else {
+                    elements[i].innerHTML += Chat.charAt(charIndex);
                 }
-                elements[i].innerHTML += Chat.charAt(charIndex);
             }
             charIndex++;
         } else {
             clearInterval(intervalId);
             scrollBottom(vm);
-            vm.isChat = false
+            vm.isChat = false;
         }
     }, 3);
 }
