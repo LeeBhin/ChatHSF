@@ -144,5 +144,13 @@ export default {
   .MyChat>#Balloon {
     margin-right: 10px;
   }
+
+  .BotChat {
+    width: 80%;
+  }
+
+  .MyChat {
+    width: 80%;
+  }
 }
 </style>
