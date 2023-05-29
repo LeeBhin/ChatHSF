@@ -19,14 +19,15 @@ function List_Comment(json) {
         return replacedArray;
     }
 
-    console.log((json))
+    var address_Return_Clean = [...new Set(json.address_Return)];
+
     var Result = ''
     Result += Good() + '\n' + Cm1()
-    if (!json.types_Return && json.address_Return && json.address_Return.length !== 0) {
-        Result += json.address_Return.join(" ") + Cm2() + '고등학교'
+    if (!json.types_Return && address_Return_Clean && address_Return_Clean.length !== 0) {
+        Result += address_Return_Clean.join(" ") + Cm2() + '고등학교'
     }
-    else if (json.address_Return && json.address_Return.length !== 0) {
-        Result += json.address_Return.join(" ") + Cm2()
+    else if (address_Return_Clean && address_Return_Clean.length !== 0) {
+        Result += address_Return_Clean.join(" ") + Cm2()
     }
 
     if (json.types_Return && json.types_Return.length !== 0) {
@@ -42,8 +43,6 @@ function List_Comment(json) {
     }
 
     Result += Cm4()
-
-    console.log(Result)
     return Result
 }
 
