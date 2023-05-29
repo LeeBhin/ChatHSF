@@ -34,6 +34,7 @@ export default {
 #Balloon {
   float: left;
   padding: 10px 15px 10px 15px;
+  font-size: 18px;
 }
 
 /* -----봇 말풍선----- */

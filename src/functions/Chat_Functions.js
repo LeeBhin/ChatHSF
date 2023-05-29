@@ -36,6 +36,15 @@ function WriteChat(vm, index, Chat) {
                         charIndex++;
                     }
                     elements[i].innerHTML += `<a href="${website}" target='_blank'>이곳</a>`;
+                } else if (Chat.charAt(charIndex) === '㉾') {
+                    charIndex++;
+                    let website = '';
+
+                    while (charIndex < Chat.length && Chat.charAt(charIndex) !== '㉾') {
+                        website += Chat.charAt(charIndex);
+                        charIndex++;
+                    }
+                    elements[i].innerHTML += `<a href="${website}" target='_blank'>${website}</a>`;
                 } else if (Chat.charAt(charIndex) === '*') {
                     charIndex++;
                     let boldText = '';
@@ -72,6 +81,7 @@ function EnterEvent(vm, inputValue) {
     MyChat(vm, inputValue);   //내 채팅
     document.querySelector('#SearchBar > input').value = ''
     Decision(vm, inputValue)
+    
 }
 
 export { MyChat, BotChat, WriteChat, scrollBottom, EnterEvent }
