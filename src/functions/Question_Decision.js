@@ -16,8 +16,8 @@ function Decision(vm, Question) {
 
             var extractedSCHULNMs = printDuplicates(CrrSchool).map(({ SCHUL_NM }) => SCHUL_NM);
             var extractedRDNDAs = printDuplicates(CrrSchool).map(({ SCHUL_RDNDA }) => SCHUL_RDNDA);
-
-            if (CrrSchool != null && Question.split(' ').length == 1) {
+            console.log(Question.split(' ').filter(Boolean))
+            if (CrrSchool != null && Question.split(' ').filter(Boolean).length == 1) {
                 if (extractedSCHULNMs.length > 1) {
                     BotChat(vm, SchInfo(Question) + '는 전국에 ' + extractedSCHULNMs.length + '개가 있습니다. 아래에서 번호를 골라주세요.')
 

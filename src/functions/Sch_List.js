@@ -51,12 +51,12 @@ function ListFunction(jsonData, addressClean, typeArray, gender_Clean) {    //�
 }
 
 function stringFilter(str) {    //예외 처리
-    str = str.replace(/일반고|일반학교|일반고등학교/g, "Common");
-    str = str.replace(/특성화고|특성화학교|특성화고등학교/g, "Special");
-    str = str.replace(/특목고|특수목적고|특수목적고등학교|특수목적학교|특목학교/g, "Purpose");
-    str = str.replace(/자율고|자율고등학교|자율학교/g, "Free");
-    str = str.replace(/여고|여자고|여자학교|여학교|여자고등학교/g, "Female");
-    str = str.replace(/남고|남자고|남자학교|남학교|남자고등학교/g, "Male");
+    str = str.replace(/일반고등학교|일반고|일반학교/g, "Common");
+    str = str.replace(/특성화고등학교|특성화고|특성화학교/g, "Special");
+    str = str.replace(/특수목적고등학교|특목고|특수목적고|특수목적학교|특목학교/g, "Purpose");
+    str = str.replace(/자율고등학교|자율고|자율학교/g, "Free");
+    str = str.replace(/여자고등학교|여고|여자고|여자학교|여학교/g, "Female");
+    str = str.replace(/남자고등학교|남고|남자고|남자학교|남학교/g, "Male");
     str = str.replace(/공학|공학학교/g, "Mixed");
     str = str.replace(/경남/g, "경상남도");
     str = str.replace(/경북/g, "경상북도");
@@ -64,6 +64,7 @@ function stringFilter(str) {    //예외 처리
     str = str.replace(/전북/g, "전라북도");
     str = str.replace(/충남/g, "충청남도");
     str = str.replace(/충북/g, "충청북도");
+
     return str
 }
 
