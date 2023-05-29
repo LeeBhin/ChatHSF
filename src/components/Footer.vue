@@ -56,4 +56,8 @@ footer {
 input:focus {
     outline: none;
 }
+
+input {
+    touch-action: manipulation;
+}
 </style>
