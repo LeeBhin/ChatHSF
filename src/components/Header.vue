@@ -4,7 +4,7 @@
 
         <div id="Header-Mid">
             <div id="BotName">봇이름</div>
-            <div id="SchName">{{ SchName }}</div>
+            <div id="SchName">학교명</div>
         </div>
 
         <!-- 봇 프로필 자리 -->
@@ -13,13 +13,7 @@
 
 <script>
 export default {
-    name: 'Chat_Header',
-
-    data() {
-        return {
-            SchName: '학교 이름'
-        }
-    }
+    name: 'Chat_Header'
 }
 </script>
 

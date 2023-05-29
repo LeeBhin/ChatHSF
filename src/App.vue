@@ -65,7 +65,7 @@ export default {
 #Wrap {
   background: rgba(245, 250, 255, 0.4);
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
 }
 
 #ChatPage {

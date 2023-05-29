@@ -13,6 +13,7 @@ import { info_Print } from "./Sch_Info"
 function Decision(vm, Question) {
     try {
         var CrrSchool = SchInfo(Question);
+        document.getElementById('SchName').innerText = CrrSchool
 
         var extractedSCHULNMs = printDuplicates(CrrSchool).map(({ SCHUL_NM }) => SCHUL_NM);
         var extractedRDNDAs = printDuplicates(CrrSchool).map(({ SCHUL_RDNDA }) => SCHUL_RDNDA);
