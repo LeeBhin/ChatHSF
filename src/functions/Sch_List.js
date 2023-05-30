@@ -1,4 +1,6 @@
-import { All_Info } from "@/assets/data"
+const allinfo = localStorage.getItem('schinfo');
+const All_Info = JSON.parse(allinfo)
+
 /**
  * 
  * @param {All_Info} jsonData 

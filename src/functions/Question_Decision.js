@@ -5,7 +5,8 @@ import { SchList } from "./Sch_List"
 import { List_Comment } from "./Bot_Comment/List_Comment"
 import { printDuplicates } from "./Sch_Info"
 import { info_Print, detail_Info } from "./Sch_Info"
-import { All_Info } from "@/assets/data"
+const allinfo = localStorage.getItem('schinfo');
+const All_Info = JSON.parse(allinfo)
 
 var DoubleSch = false
 function Decision(vm, Question) {

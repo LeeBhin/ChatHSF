@@ -1,4 +1,8 @@
-import { All_Info, Student_number } from "@/assets/data";
+const allinfo = localStorage.getItem('schinfo');
+const All_Info = JSON.parse(allinfo)
+
+const stdnt = localStorage.getItem('stdnt');
+const Student_number = JSON.parse(stdnt)
 
 function SchNm() {
     return All_Info.map(item => item.SCHUL_NM);
