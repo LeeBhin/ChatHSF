@@ -38,12 +38,12 @@ if (!schinfo || !stdnt || !lastUpdated || new Date().getTime() - parseInt(lastUp
       localStorage.setItem('schinfo', JSON.stringify(schinfo));
       localStorage.setItem('stdnt', JSON.stringify(stdnt));
       localStorage.setItem('lastUpdated', currentTime.toString());
+      window.location.reload();
     })
     .catch(function (error) {
       alert('오류가 발생했습니다. 새로고침해주세요.\n' + error)
     });
 }
-
 
 export default {
   name: 'App',

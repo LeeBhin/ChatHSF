@@ -10,14 +10,21 @@ const All_Info = JSON.parse(allinfo)
 
 var DoubleSch = false
 function Decision(vm, Question) {
-    if (!DoubleSch) {
+    
+    const schinfo = localStorage.getItem('schinfo');
+
+    if (!schinfo) {
+        BotChat(vm, '데이터 로딩중입니다... 잠시만 기다려주세요!\n(데이터 갱신은 일주일에 한 번 한답니다)')
+    }
+
+    else if (!DoubleSch) {
         try {
             var CrrSchool = SchInfo(Question);
             document.getElementById('SchName').innerText = CrrSchool
 
             var extractedSCHULNMs = printDuplicates(CrrSchool).map(({ SCHUL_NM }) => SCHUL_NM);
             var extractedRDNDAs = printDuplicates(CrrSchool).map(({ SCHUL_RDNDA }) => SCHUL_RDNDA);
-            console.log(Question.split(' ').filter(Boolean))
+
             if (CrrSchool != null && Question.split(' ').filter(Boolean).length == 1) {
                 if (extractedSCHULNMs.length > 1) {
                     BotChat(vm, SchInfo(Question) + '는 전국에 ' + extractedSCHULNMs.length + '개가 있습니다. 아래에서 번호를 골라주세요.')
