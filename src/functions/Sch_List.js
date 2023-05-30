@@ -59,6 +59,7 @@ function stringFilter(str) {    //예외 처리
     str = str.replace(/자율고등학교|자율고|자율학교/g, "Free");
     str = str.replace(/여자고등학교|여고|여자고|여자학교|여학교/g, "Female");
     str = str.replace(/남자고등학교|남고|남자고|남자학교|남학교/g, "Male");
+    str = str.replace(/고등학교/g, " ");
     str = str.replace(/공학|공학학교/g, "Mixed");
     str = str.replace(/경남/g, "경상남도");
     str = str.replace(/경북/g, "경상북도");
