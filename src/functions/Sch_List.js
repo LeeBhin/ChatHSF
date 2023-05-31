@@ -60,7 +60,7 @@ function stringFilter(str) {    //예외 처리
     str = str.replace(/고등학교/g, " ");
     str = str.replace(/공학|공학학교/g, "Mixed");
     str = str.replace(/서울/g, "서울특별시");
-    console.log(str)
+    str = str.replace(/제주|제주도/g, "제주특별자치도");
     return str
 }
 
@@ -98,7 +98,6 @@ function filtered_to_Keyword(str) {
             values[i] = replacements[values[i]] || values[i];
         }
     }
-    console.log(result)
     return result;
 }
 
@@ -116,7 +115,6 @@ function SchList(string) {
         "types_Return": Types,
         "genders_Return": Genders
     };
-    console.log(result)
     return result;
 }
 
