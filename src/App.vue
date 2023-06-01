@@ -42,6 +42,7 @@ if (!schinfo || !stdnt || !lastUpdated || new Date().getTime() - parseInt(lastUp
     })
     .catch(function (error) {
       alert('오류가 발생했습니다. 새로고침해주세요.\n' + error)
+      window.location.reload();
     });
 }
 
