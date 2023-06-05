@@ -10,7 +10,14 @@ const All_Info = JSON.parse(allinfo)
 
 var DoubleSch = false
 function Decision(vm, Question) {
-    
+
+    if (Question == '!업데이트') {
+        localStorage.removeItem('schinfo');
+        localStorage.removeItem('stdnt');
+        localStorage.removeItem('lastUpdated');
+        window.location.reload();
+    }
+
     const schinfo = localStorage.getItem('schinfo');
 
     if (!schinfo) {
