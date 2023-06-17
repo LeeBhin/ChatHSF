@@ -35,7 +35,7 @@ function WriteChat(vm, index, Chat) {
                         website += Chat.charAt(charIndex);
                         charIndex++;
                     }
-                    elements[i].innerHTML += `<a href="${website}" target='_blank'>이곳</a>`;
+                    elements[i].innerHTML += `<a href="${website.startsWith('http') ? website : 'http://' + website}" target='_blank'>이곳</a>`;
                 } else if (Chat.charAt(charIndex) === '㉾') {
                     charIndex++;
                     let website = '';
@@ -44,7 +44,7 @@ function WriteChat(vm, index, Chat) {
                         website += Chat.charAt(charIndex);
                         charIndex++;
                     }
-                    elements[i].innerHTML += `<a href="${website}" target='_blank'>${website}</a>`;
+                    elements[i].innerHTML += `<a href="${website.startsWith('http') ? website : 'http://' + website}" target='_blank'>${website}</a>`;
                 } else if (Chat.charAt(charIndex) === '*') {
                     charIndex++;
                     let boldText = '';
