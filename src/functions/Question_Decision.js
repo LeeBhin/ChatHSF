@@ -50,14 +50,14 @@ function Decision(vm, Question) {
                         BotChat(vm, detail_Info(CrrSchool))
                     }, S * 2);
                 }
-            } else if (SchList(Question).List != '') {
+            } else if (SchList(Question).List != '' && [...Question].filter((char, i) => char === SchInfo(Question)[i]).length >= 3) {
                 BotChat(vm, List_Comment(SchList(Question)))
                 BotChat(vm, SchList(Question).List)
             } else {
                 BotChat(vm, not_Exist())
             }
         } catch (error) {
-            if (SchList(Question).List != '') {
+            if (SchList(Question).List !== '' && [...Question].filter((char, i) => char === SchInfo(Question)[i]).length >= 3) {
                 BotChat(vm, List_Comment(SchList(Question)))
                 BotChat(vm, SchList(Question).List)
             } else {
