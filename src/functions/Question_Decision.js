@@ -44,29 +44,20 @@ function Decision(vm, Question) {
                     BotChat(vm, Slct)
                     DoubleSch = true
                 } else {
-                    if ([...Question].filter((char, i) => char === SchInfo(Question)[i]).length >= 3) {
-                        var S = info_Print(CrrSchool).length
-                        BotChat(vm, info_Print(CrrSchool))
-                        setTimeout(() => {
-                            BotChat(vm, detail_Info(CrrSchool))
-                        }, S * 2);
-                    } else {
-                        BotChat(vm, not_Exist())
-                    }
+                    var S = info_Print(CrrSchool).length
+                    BotChat(vm, info_Print(CrrSchool))
+                    setTimeout(() => {
+                        BotChat(vm, detail_Info(CrrSchool))
+                    }, S * 2);
                 }
-            } else if (SchList(Question).List != '' && [...Question].filter((char, i) => char === SchInfo(Question)[i]).length >= 3) {
+            } else if (SchList(Question).List != '') {
                 BotChat(vm, List_Comment(SchList(Question)))
                 BotChat(vm, SchList(Question).List)
             } else {
                 BotChat(vm, not_Exist())
             }
         } catch (error) {
-            if (SchList(Question).List !== '' && [...Question].filter((char, i) => char === SchInfo(Question)[i]).length >= 3) {
-                BotChat(vm, List_Comment(SchList(Question)))
-                BotChat(vm, SchList(Question).List)
-            } else {
-                BotChat(vm, not_Exist())
-            }
+            BotChat(vm, not_Exist())
         }
     } else {
         //마지막 요소 선택
