@@ -44,11 +44,15 @@ function Decision(vm, Question) {
                     BotChat(vm, Slct)
                     DoubleSch = true
                 } else {
-                    var S = info_Print(CrrSchool).length
-                    BotChat(vm, info_Print(CrrSchool))
-                    setTimeout(() => {
-                        BotChat(vm, detail_Info(CrrSchool))
-                    }, S * 2);
+                    if ([...Question].filter((char, i) => char === SchInfo(Question)[i]).length >= 3) {
+                        var S = info_Print(CrrSchool).length
+                        BotChat(vm, info_Print(CrrSchool))
+                        setTimeout(() => {
+                            BotChat(vm, detail_Info(CrrSchool))
+                        }, S * 2);
+                    } else {
+                        BotChat(vm, not_Exist())
+                    }
                 }
             } else if (SchList(Question).List != '' && [...Question].filter((char, i) => char === SchInfo(Question)[i]).length >= 3) {
                 BotChat(vm, List_Comment(SchList(Question)))
