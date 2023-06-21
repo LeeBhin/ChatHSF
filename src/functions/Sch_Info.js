@@ -34,6 +34,11 @@ function SchInfo(inputString, stringList) {
         const currentString = stringList[i];
         let matchCount = 0;
 
+        // 세 글자 이상 일치 여부 확인
+        if (currentString.length < 3) {
+            continue;
+        }
+
         // 일치하는 글자 수 계산
         for (let j = 0; j < inputString.length; j++) {
             if (currentString.includes(inputString[j])) {
