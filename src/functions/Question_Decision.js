@@ -57,7 +57,12 @@ function Decision(vm, Question) {
                 BotChat(vm, not_Exist())
             }
         } catch (error) {
-            BotChat(vm, not_Exist())
+            if (SchList(Question).List != '') {
+                BotChat(vm, List_Comment(SchList(Question)))
+                BotChat(vm, SchList(Question).List)
+            } else {
+                BotChat(vm, not_Exist())
+            }
         }
     } else {
         //마지막 요소 선택
