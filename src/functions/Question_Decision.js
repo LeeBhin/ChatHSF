@@ -55,38 +55,31 @@ function Decision(vm, Question) {
         } else if (schinfo(Question) == 1) {
             BotChat(vm, not_Exist())
         } else {
-            BotChat(vm, not_Exist())
-        }
-    } else {
-        //마지막 요소 선택(중복)
-        var elements = document.querySelectorAll(".BotChat");
-        var lastElement = elements[elements.length - 1];
-        var arr = lastElement.innerText.split('\n')
+            //마지막 요소 선택(중복)
+            var elements = document.querySelectorAll(".BotChat");
+            var lastElement = elements[elements.length - 1];
+            var arr = lastElement.innerText.split('\n')
 
-        for (var i = 0; i < arr.length; i++) {
-            if (arr[i].includes(Question.toString())) {
-                var jsonArr = All_Info
-                var sch = arr[i].replace(/[0-9.]/g, "").trim();
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].includes(Question.toString())) {
+                    var jsonArr = All_Info
+                    var sch = arr[i].replace(/[0-9.]/g, "").trim();
 
-                var schulCode = null; // SCHUL_CODE 값을 저장할 변수
+                    var schulCode = null; // SCHUL_CODE 값을 저장할 변수
 
-                for (var j = 0; j < jsonArr.length; j++) {
-                    if (jsonArr[j].SCHUL_RDNDA === sch) {
-                        schulCode = jsonArr[j].SCHUL_CODE;
-                        break;
+                    for (var j = 0; j < jsonArr.length; j++) {
+                        if (jsonArr[j].SCHUL_RDNDA === sch) {
+                            schulCode = jsonArr[j].SCHUL_CODE;
+                            break;
+                        }
                     }
+                    var S2 = info_PrintC(schulCode).length
+                    BotChat(vm, info_PrintC(schulCode))
+                    setTimeout(() => {
+                        BotChat(vm, detail_InfoC(schulCode))
+                    }, S2 * 2);
+
+                    DoubleSch = false
                 }
-                var S2 = info_PrintC(schulCode).length
-                BotChat(vm, info_PrintC(schulCode))
-                setTimeout(() => {
-                    BotChat(vm, detail_InfoC(schulCode))
-                }, S2 * 2);
-
-                DoubleSch = false
             }
-        }
-    }
-
-}
-
-export { Decision }
+        } 
