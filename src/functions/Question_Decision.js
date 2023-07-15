@@ -82,4 +82,6 @@ function Decision(vm, Question) {
                     DoubleSch = false
                 }
             }
-        } 
+        }
+    }
+}
