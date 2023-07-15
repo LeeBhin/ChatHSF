@@ -23,7 +23,7 @@ function StdntC(School) {
 function SchInfo(inputString, stringList) {
 
     if (inputString.length < 3) {
-        return null;
+        return 1;
     }
 
     stringList = SchNm()

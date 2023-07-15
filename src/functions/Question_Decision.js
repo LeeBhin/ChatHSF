@@ -25,47 +25,40 @@ function Decision(vm, Question) {
     }
 
     else if (!DoubleSch) {
-        try {
-            var CrrSchool = SchInfo(Question);
-            document.getElementById('SchName').innerText = CrrSchool
+        var CrrSchool = SchInfo(Question);
+        document.getElementById('SchName').innerText = CrrSchool
 
-            var extractedSCHULNMs = printDuplicates(CrrSchool).map(({ SCHUL_NM }) => SCHUL_NM);
-            var extractedRDNDAs = printDuplicates(CrrSchool).map(({ SCHUL_RDNDA }) => SCHUL_RDNDA);
+        var extractedSCHULNMs = printDuplicates(CrrSchool).map(({ SCHUL_NM }) => SCHUL_NM);
+        var extractedRDNDAs = printDuplicates(CrrSchool).map(({ SCHUL_RDNDA }) => SCHUL_RDNDA);
 
-            if (CrrSchool != null && Question.split(' ').filter(Boolean).length == 1) {
-                if (extractedSCHULNMs.length > 1) {
-                    BotChat(vm, SchInfo(Question) + '는 전국에 ' + extractedSCHULNMs.length + '개가 있습니다. 아래에서 번호를 골라주세요.')
+        if (CrrSchool != null && Question.split(' ').filter(Boolean).length == 1) {
+            if (extractedSCHULNMs.length > 1) {
+                BotChat(vm, SchInfo(Question) + '는 전국에 ' + extractedSCHULNMs.length + '개가 있습니다. 아래에서 번호를 골라주세요.')
 
-                    var Slct = ''
-                    for (let i = 0; i < extractedRDNDAs.length; i++) {
-                        Slct += (`${i + 1}. ${extractedRDNDAs[i]}\n`);
-                    }
-
-                    BotChat(vm, Slct)
-                    DoubleSch = true
-                } else {
-                    var S = info_Print(CrrSchool).length
-                    BotChat(vm, info_Print(CrrSchool))
-                    setTimeout(() => {
-                        BotChat(vm, detail_Info(CrrSchool))
-                    }, S * 2);
+                var Slct = ''
+                for (let i = 0; i < extractedRDNDAs.length; i++) {
+                    Slct += (`${i + 1}. ${extractedRDNDAs[i]}\n`);
                 }
-            } else if (SchList(Question).List != '') {
-                BotChat(vm, List_Comment(SchList(Question)))
-                BotChat(vm, SchList(Question).List)
+
+                BotChat(vm, Slct)
+                DoubleSch = true
             } else {
-                BotChat(vm, not_Exist())
+                var S = info_Print(CrrSchool).length
+                BotChat(vm, info_Print(CrrSchool))
+                setTimeout(() => {
+                    BotChat(vm, detail_Info(CrrSchool))
+                }, S * 2);
             }
-        } catch (error) {
-            if (SchList(Question).List != '') {
-                BotChat(vm, List_Comment(SchList(Question)))
-                BotChat(vm, SchList(Question).List)
-            } else {
-                BotChat(vm, not_Exist())
-            }
+        } else if (SchList(Question).List != '') {
+            BotChat(vm, List_Comment(SchList(Question)))
+            BotChat(vm, SchList(Question).List)
+        } else if (schinfo(Question) == 1) {
+            BotChat(vm, not_Exist())
+        } else {
+            BotChat(vm, not_Exist())
         }
     } else {
-        //마지막 요소 선택
+        //마지막 요소 선택(중복)
         var elements = document.querySelectorAll(".BotChat");
         var lastElement = elements[elements.length - 1];
         var arr = lastElement.innerText.split('\n')
@@ -93,6 +86,7 @@ function Decision(vm, Question) {
             }
         }
     }
+
 }
 
 export { Decision }
